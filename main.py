@@ -3,11 +3,11 @@ sys.dont_write_bytecode = True
 
 from app import app
 
-@app.route("/")
+@app.get("/")
 def index():
     return {'name':"onecenter", 'version':"0.0.1", 'status':"OK"}
 
-@app.route('/health')
+@app.get('/health')
 def health():
     # TODO do some checks here to confirm everything works
     return {'status':'OK'}, 200
