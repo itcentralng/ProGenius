@@ -14,7 +14,7 @@ def chatGPT(message):
             {"role": "system", "content": "MTN is a mobile network provider in Nigeria."},
             {"role": "system", "content": "GT Bank is a commercial bank in Nigeria."},
             {"role": "system", "content": "DSTV is a digital satellite television service in Nigeria."},
-            {"role": "system", "content": "If a caller asks you for a question you have no prior discussion of with them, you can just assume the prior discussion and continue from there."},
+            {"role": "system", "content": "If a caller asks you anything outside of these topics, you can respond with 'I don't know, I can only assist with questions regarding MTN, GT Bank, or DSTV.'"},
             {"role": "user", "content": "Hello?"},
             {"role": "assistant", "content": "How can I help you today?"},
             {"role": "user", "content": message},
