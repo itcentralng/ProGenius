@@ -30,6 +30,10 @@ class Call(db.Model):
         return cls.query.filter_by(is_deleted=False).order_by(cls.created_at).all()
     
     @classmethod
+    def get_last_six(cls):
+        return  cls.query.order_by(cls.id.asc()).limit(6).offset(cls.query.count() - 6).all()
+    
+    @classmethod
     def create(cls, role, content):
         call = cls(role=role, content=content)
         call.save()

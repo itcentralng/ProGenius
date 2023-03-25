@@ -13,7 +13,7 @@ bp = Blueprint('call', __name__, template_folder='templates')
 def make_response():
     message = request.json.get('message_body')
     Call.create(role='user', content=message)
-    history = Call.get_all()
+    history = Call.get_last_six()
     chat = chatGPT(history)
     Call.create(role='assistant', content=chat.get('content'))
     return chat.get('content')
