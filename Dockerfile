@@ -15,9 +15,8 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-# TODO: Add all your environment variables here
-# ARG DATABASE_URI
-# ENV DATABASE_URI=${DATABASE_URI}
+ARG OPENAI_API_KEY
+ENV OPENAI_API_KEY=${OPENAI_API_KEY}
 
 RUN flask db upgrade
 
