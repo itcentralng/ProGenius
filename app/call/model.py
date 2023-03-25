@@ -2,6 +2,8 @@ from app import db
 
 class Call(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    role = db.Column(db.String)
+    content = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, default=db.func.now())
     is_deleted = db.Column(db.Boolean, default=False)
@@ -28,7 +30,7 @@ class Call(db.Model):
         return cls.query.filter_by(is_deleted=False).all()
     
     @classmethod
-    def create(cls):
-        call = cls()
+    def create(cls, role, content):
+        call = cls(role=role, content=content)
         call.save()
         return call
