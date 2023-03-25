@@ -3,7 +3,7 @@ import os
 import openai
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def chatGPT(message):
+def chatGPT(history):
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -17,7 +17,6 @@ def chatGPT(message):
             {"role": "system", "content": "If a caller asks you anything outside of these topics, you can respond with 'I don't know, I can only assist with questions regarding MTN, GT Bank, or DSTV.'"},
             {"role": "user", "content": "Hello?"},
             {"role": "assistant", "content": "How can I help you today?"},
-            {"role": "user", "content": message},
-        ]
+        ]+[{"role": h.role, "content": h.content} for h in history]
         )
     return completion.choices[0].message

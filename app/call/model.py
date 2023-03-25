@@ -27,7 +27,7 @@ class Call(db.Model):
     
     @classmethod
     def get_all(cls):
-        return cls.query.filter_by(is_deleted=False).all()
+        return cls.query.filter_by(is_deleted=False).order_by(cls.created_at).all()
     
     @classmethod
     def create(cls, role, content):

@@ -3,4 +3,4 @@ venv
 __pycache__
 *.pyc
 .env
-instance/onecenter.db
+*.db

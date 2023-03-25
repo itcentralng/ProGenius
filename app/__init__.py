@@ -11,9 +11,6 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 CORS(app)
 
-with app.app_context():
-    db.create_all()
-
 
 # Celery
 from app.celery import make_celery

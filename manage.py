@@ -1,12 +1,9 @@
 from datetime import datetime
-from app import app
+from app import app, db
 from app.user.model import User
+from app.call.model import Call
 
 with app.app_context():
-    pass
-    # TODO:
-    # Remove the pass keyword and
-    # Run some actions you want to be be performed
-    # on your server either when deployed or locally.
-    # TODO: WARNING: This will also execute when deployed
+    with app.app_context():
+        db.create_all()
     print('Ready!')
