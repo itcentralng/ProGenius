@@ -18,9 +18,9 @@ COPY . .
 ARG OPENAI_API_KEY
 ENV OPENAI_API_KEY=${OPENAI_API_KEY}
 
-RUN flask db upgrade
+# RUN flask db upgrade
 
-RUN python manage.py
+# RUN python manage.py
 
 
 EXPOSE 80
