@@ -38,7 +38,8 @@ class SMS:
             print ('Encountered an error while sending: %s' % str(e))
 
 def send_ai_message(history):
-    recipient = "+2348158962698"
+    recipients = ["+2348158962698", "+2348076196276"]
     sms = SMS()
     if len(history) > 2:
-        sms.send(recipient, history[-1].content)        
+        for recipient in recipients:
+            sms.send(recipient, history[-1].content)
