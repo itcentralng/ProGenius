@@ -7,8 +7,8 @@ class SMS:
         SMS_USERNAME="mypal"
         SMS_API_KEY="08fc39e0dd7a60614ac4e8d2357238ac4c16748a53dc4980664bc173f05dcb08"
         # Set your app credentials
-        self.username = os.environ.get(SMS_USERNAME)
-        self.api_key = os.environ.get(SMS_API_KEY)
+        self.username = SMS_USERNAME
+        self.api_key = SMS_API_KEY
         
         # Initialize the SDK
         africastalking.initialize(self.username, self.api_key)
