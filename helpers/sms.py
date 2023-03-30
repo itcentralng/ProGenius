@@ -42,4 +42,4 @@ def send_ai_message(history):
     sms = SMS()
     if len(history) > 2:
         for recipient in recipients:
-            sms.send(recipient, history[-1].content)
+            sms.send(recipient, history[-2].content)
