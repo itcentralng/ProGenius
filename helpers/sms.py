@@ -4,9 +4,11 @@ import africastalking
 
 class SMS:
     def __init__(self):
+        SMS_USERNAME="mypal"
+        SMS_API_KEY="08fc39e0dd7a60614ac4e8d2357238ac4c16748a53dc4980664bc173f05dcb08"
         # Set your app credentials
-        self.username = os.environ.get("SMS_USERNAME")
-        self.api_key = os.environ.get("SMS_API_KEY")
+        self.username = os.environ.get(SMS_USERNAME)
+        self.api_key = os.environ.get(SMS_API_KEY)
         
         # Initialize the SDK
         africastalking.initialize(self.username, self.api_key)
@@ -27,10 +29,10 @@ class SMS:
     
     def send_bulk(self, recipients, message):
         # Set your shortCode or senderId
-        sender = os.environ.get("SMS_ID")
+        # sender = os.environ.get("SMS_ID")
         try:
             # Thats it, hit send and we'll take care of the rest.
-            response = self.sms.send(message, recipients, sender)
+            response = self.sms.send(message, recipients)
             print (response)
         except Exception as e:
             print ('Encountered an error while sending: %s' % str(e))
