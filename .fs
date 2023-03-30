@@ -7,3 +7,4 @@ FLASK SETUP LOG
 2023-03-24 22:09:08: Blueprint openai added successfully
 2023-03-24 22:09:15: Blueprint openai removed successfully
 2023-03-24 22:09:49: openai installed successfully
+2023-03-30 17:59:16: africastalking installed successfully
