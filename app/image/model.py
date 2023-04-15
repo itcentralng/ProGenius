@@ -1,9 +1,10 @@
 from app import db
 
-class Call(db.Model):
+class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    role = db.Column(db.String)
-    content = db.Column(db.String)
+    note_id = db.Column(db.Integer, db.ForeignKey('note.id'))
+    prompt = db.Column(db.String)
+    url = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, default=db.func.now())
     is_deleted = db.Column(db.Boolean, default=False)
@@ -12,7 +13,9 @@ class Call(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self):
+    def update(self, prompt: str, url: str):
+        self.prompt = prompt or self.prompt
+        self.url = url or self.url
         self.updated_at = db.func.now()
         db.session.commit()
     
@@ -27,14 +30,10 @@ class Call(db.Model):
     
     @classmethod
     def get_all(cls):
-        return cls.query.filter_by(is_deleted=False).order_by(cls.created_at).all()
+        return cls.query.filter_by(is_deleted=False).all()
     
     @classmethod
-    def get_last_six(cls):
-        return  cls.query.order_by(cls.id.asc()).limit(6).offset(cls.query.count() - 6).all()
-    
-    @classmethod
-    def create(cls, role, content):
-        call = cls(role=role, content=content)
-        call.save()
-        return call
+    def create(cls, prompt, url, note_id):
+        image = cls(prompt=prompt, url=url, note_id=note_id)
+        image.save()
+        return image
