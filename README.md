@@ -1,5 +1,5 @@
 # autoNote
-TO RUN:
+<!-- TO RUN: -->
 
 ADD: .env file to the root of the project
 Sample:
