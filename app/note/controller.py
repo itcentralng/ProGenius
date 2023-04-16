@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from app.route_guard import auth_required
 
 from app.note.model import *
@@ -13,7 +13,7 @@ def create_note():
     topic = request.json['topic']
     curriculum = request.json['curriculum']
     level = request.json['level']
-    note = Note.create(subject, topic, curriculum, level)
+    note = Note.create(subject, topic, curriculum, level, g.user.id)
     return NoteSchema().dump(note), 201
 
 @bp.get('/note/<int:id>')
@@ -45,5 +45,5 @@ def delete_note(id):
 @bp.get('/notes')
 @auth_required()
 def get_notes():
-    notes = Note.get_all()
+    notes = Note.get_all_by_creator_id(g.user.id)
     return NoteSchema(many=True).dump(notes), 200

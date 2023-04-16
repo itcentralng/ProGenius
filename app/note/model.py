@@ -44,8 +44,8 @@ class Note(db.Model):
         return cls.query.filter_by(is_deleted=False, creator_id=creator_id).all()
     
     @classmethod
-    def create(cls, subject, topic, curriculum, level):
-        note = cls(subject=subject, topic=topic, curriculum=curriculum, level=level)
+    def create(cls, subject, topic, curriculum, level, creator_id):
+        note = cls(subject=subject, topic=topic, curriculum=curriculum, level=level, creator_id=creator_id)
         note.save()
         raw = chat(subject, topic, curriculum, level)
         # print(response)
