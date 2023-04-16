@@ -1,4 +1,4 @@
-# onecenter-tadhack
+# autoNote
 TO RUN:
 
 Install Python on your computer
