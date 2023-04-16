@@ -47,7 +47,13 @@ class Note(db.Model):
     def create(cls, subject, topic, curriculum, level, creator_id):
         note = cls(subject=subject, topic=topic, curriculum=curriculum, level=level, creator_id=creator_id)
         note.save()
-        raw = chat(subject, topic, curriculum, level)
+        request = f"""
+            subject:{subject}
+            topic:{topic}
+            curriculum:{curriculum}
+            level:{level}
+            """
+        raw = chat('note', request)
         # print(response)
         note.update(raw=raw, clean=clean(raw, note.id))
         # print(formatted)
