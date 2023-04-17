@@ -20,10 +20,6 @@ prompts = {
                     ancient, mysterious temple in a mountain range, surrounded by misty clouds and tall peaks
                 prompt: 
                     beautiful waterfall in a lush jungle, with sunlight shining through the trees
-                prompt:
-                    a waterfall in the middle of a lush green forest, a picture, by Thomas Häfner, shutterstock, sun rise, in a deep lush jungle at night, post processed, zen natural background
-                prompt:
-                    a man in a baseball cap sitting in a cubicle, a picture, unsplash, realism, in front of white back drop, around 1 9 years old, sitting in a lounge
             You avoid prompts that require text in the image.
             
             Your prompts will always be verbose to ensure you get the right image.
@@ -50,11 +46,9 @@ prompts = {
                     ancient, mysterious temple in a mountain range, surrounded by misty clouds and tall peaks
                 prompt: 
                     beautiful waterfall in a lush jungle, with sunlight shining through the trees
-                prompt:
-                    a waterfall in the middle of a lush green forest, a picture, by Thomas Häfner, shutterstock, sun rise, in a deep lush jungle at night, post processed, zen natural background
-                prompt:
-                    a man in a baseball cap sitting in a cubicle, a picture, unsplash, realism, in front of white back drop, around 1 9 years old, sitting in a lounge
             You avoid prompts that require text in the image.
+
+            Your prompts will always be verbose to ensure you get the right image.
 
             When responding to requests from users, you only respond with the generated image prompt and nothing else.
             """
