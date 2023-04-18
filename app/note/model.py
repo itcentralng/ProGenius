@@ -1,6 +1,7 @@
 from app import db
-from helpers.openai import chat
+from helpers.openai import chat, transcribe
 from helpers.formater import clean
+from helpers.ephemeral import Ephemeral
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,8 +55,17 @@ class Note(db.Model):
             level:{level}
             """
         raw = chat('note', request)
-        # print(response)
         note.update(raw=raw, clean=clean(raw, note.id))
-        # print(formatted)
         return note
-        # return Note()
+    
+    @classmethod
+    def create_from_audio(cls, subject, topic, curriculum, level, creator_id, audio):
+        note = cls(subject=subject, topic=topic, curriculum=curriculum, level=level, creator_id=creator_id)
+        note.save()
+        transient_audio_file = Ephemeral(audio)
+        transcript = transcribe(transient_audio_file.save())
+        transient_audio_file.delete()
+        request = f"transcript:{transcript}"
+        raw = chat('transcript', request)
+        note.update(raw=raw, clean=clean(raw, note.id))
+        return note

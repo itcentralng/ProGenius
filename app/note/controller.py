@@ -16,6 +16,17 @@ def create_note():
     note = Note.create(subject, topic, curriculum, level, g.user.id)
     return NoteSchema().dump(note), 201
 
+@bp.post('/note/audio')
+@auth_required()
+def create_note_from_audio():
+    subject = request.form['subject']
+    topic = request.form['topic']
+    curriculum = request.form['curriculum']
+    level = request.form['level']
+    audio = request.files['audio']
+    note = Note.create_from_audio(subject, topic, curriculum, level, g.user.id, audio)
+    return NoteSchema().dump(note), 201
+
 @bp.get('/note/<int:id>')
 @auth_required()
 def get_note(id):
