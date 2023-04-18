@@ -30,7 +30,9 @@ To run the autoNote Flask server, follow the steps below:
 
 4. Set the `FLASK_APP` environment variable to `main.py` by running `export FLASK_APP=main.py`.
 
-5. Start the Flask server by running `flask run`.
+5. Run migration by running `flask db upgrade`.
+
+6. Start the Flask server by running `flask run`.
 
 ## Endpoints
 
