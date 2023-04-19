@@ -1,45 +1,31 @@
-from app import celery, app
+from app import celery
 
-from celery.schedules import crontab
+from app.note.model import Note
 
-# create a periodic task that will perform_transfer every 24 hours
-# celery.conf.beat_schedule = {
-#     'task name': {
-#         'task': 'task function to call',
-#         'schedule': crontab(hour=0, minute=0),
-#     },
-# }
-
-
+import socketio
 import os
-import smtplib, ssl
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+
+from app.note.schema import NoteSchema
+
+# create a Socket.IO client instance
+sio = socketio.Client()
 
 
 @celery.task
-def send_mail(subject, text, html, recipients, attachments=[]):
-    sender = os.environ.get('MAIL_USERNAME')
-    receiver = ",".join(recipients)
-    password = os.environ.get('MAIL_PASSWORD')
-    
-    message = MIMEMultipart("alternative")
-    message["Subject"] = subject
-    message["From"] = f'Air Warfare Centre <{sender}>'
-    message["To"] = receiver
+def create_note_task(subject, topic, curriculum, level, user_id, audio=None):
+    if audio:
+        note = Note.create_from_audio(subject, topic, curriculum, level, user_id, audio)
+    else:
+        note = Note.create(subject, topic, curriculum, level, user_id)
 
-    # Turn these into plain/html MIMEText objects
-    part1 = MIMEText(text, "plain")
-    part2 = MIMEText(html, "html")
+    # connect to the Socket.IO server
+    sio.connect(os.environ.get('SOCKET_SERVER'))
+    # create a JSON object
+    data = NoteSchema().dump(note)
 
-    # Add HTML/plain-text parts to MIMEMultipart message
-    # The email client will try to render the last part first
-    message.attach(part1)
-    message.attach(part2)
+    # emit the JSON data to the server
+    sio.emit('json', {'note':data})
 
-    # Create secure connection with server and send email
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(os.environ.get('MAIL_SERVER'), os.environ.get('MAIL_PORT'), context=context) as server:
-        server.login(sender, password)
-        server.sendmail(
-            sender, receiver, message.as_string())
+    # disconnect from the server
+    sio.disconnect()
+    return "Note Generated Successfully!"

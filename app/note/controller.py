@@ -4,6 +4,8 @@ from app.route_guard import auth_required
 from app.note.model import *
 from app.note.schema import *
 
+from app.celery.tasks import create_note_task
+
 bp = Blueprint('note', __name__)
 
 @bp.post('/note')
@@ -13,8 +15,8 @@ def create_note():
     topic = request.json['topic']
     curriculum = request.json['curriculum']
     level = request.json['level']
-    note = Note.create(subject, topic, curriculum, level, g.user.id)
-    return NoteSchema().dump(note), 201
+    create_note_task.delay(subject, topic, curriculum, level, g.user.id)
+    return {'status':'success', 'message':'Note is being generated, please hold'}, 200
 
 @bp.post('/note/audio')
 @auth_required()
@@ -24,8 +26,8 @@ def create_note_from_audio():
     curriculum = request.form['curriculum']
     level = request.form['level']
     audio = request.files['audio']
-    note = Note.create_from_audio(subject, topic, curriculum, level, g.user.id, audio)
-    return NoteSchema().dump(note), 201
+    create_note_task.delay(subject, topic, curriculum, level, g.user.id, audio)
+    return {'status':'success', 'message':'Note is being generated, please hold'}, 200
 
 @bp.get('/note/<int:id>')
 @auth_required()

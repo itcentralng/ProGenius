@@ -5,7 +5,7 @@ from app import app
 
 @app.get("/")
 def index():
-    return {'name':"onecenter", 'version':"0.0.1", 'status':"OK"}
+    return {'name':"klassNaut", 'version':"0.0.1", 'status':"OK"}
 
 @app.get('/health')
 def health():
