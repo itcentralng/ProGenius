@@ -16,3 +16,4 @@ FLASK SETUP LOG
 2023-04-15 15:37:51: boto3 installed successfully
 2023-04-17 22:05:33: Blueprint coin added successfully
 2023-04-17 22:05:49: Blueprint coin removed successfully
+2023-04-19 18:12:11: python-socketio installed successfully
