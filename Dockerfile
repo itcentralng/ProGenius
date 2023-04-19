@@ -45,6 +45,12 @@ ENV SPACE_SECRET=${SPACE_SECRET}
 ARG SPACE_ENDPOINT
 ENV SPACE_EDGE_ENDPOINT=${SPACE_EDGE_ENDPOINT}
 
+ARG CELERY_BROKER_URL
+ENV CELERY_BROKER_URL=${CELERY_BROKER_URL}
+
+ARG result_backend
+ENV result_backend=${result_backend}
+
 RUN flask db upgrade
 
 RUN python manage.py
