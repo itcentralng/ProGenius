@@ -19,3 +19,4 @@ FLASK SETUP LOG
 2023-04-19 18:12:11: python-socketio installed successfully
 2023-04-20 08:49:23: pytest installed successfully
 2023-04-20 18:21:40: websocket-client installed successfully
+2023-04-20 19:42:01: Package: websocket-client uninstalled successfully
