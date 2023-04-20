@@ -62,9 +62,7 @@ class Note(db.Model):
     def create_from_audio(cls, subject, topic, curriculum, level, creator_id, audio):
         note = cls(subject=subject, topic=topic, curriculum=curriculum, level=level, creator_id=creator_id)
         note.save()
-        transient_audio_file = Ephemeral(audio)
-        transcript = transcribe(transient_audio_file.save())
-        transient_audio_file.delete()
+        transcript = transcribe(audio)
         request = f"transcript:{transcript}"
         raw = chat('transcript', request)
         note.update(raw=raw, clean=clean(raw, note.id))

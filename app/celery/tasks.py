@@ -12,11 +12,13 @@ sio = socketio.Client()
 
 
 @celery.task
-def create_note_task(subject, topic, curriculum, level, user_id, audio=None):
-    if audio:
-        note = Note.create_from_audio(subject, topic, curriculum, level, user_id, audio)
+def create_note_task(subject, topic, curriculum, level, user_id, transient_audio_file=None):
+    if transient_audio_file:
+        note = Note.create_from_audio(subject, topic, curriculum, level, user_id, transient_audio_file)
     else:
         note = Note.create(subject, topic, curriculum, level, user_id)
+    
+    os.remove(transient_audio_file)
 
     # connect to the Socket.IO server
     sio.connect(os.environ.get('SOCKET_SERVER'))

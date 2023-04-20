@@ -26,7 +26,8 @@ def create_note_from_audio():
     curriculum = request.form['curriculum']
     level = request.form['level']
     audio = request.files['audio']
-    create_note_task.delay(subject, topic, curriculum, level, g.user.id, audio)
+    transient_audio_file = Ephemeral(audio)
+    create_note_task.delay(subject, topic, curriculum, level, g.user.id, transient_audio_file.save())
     return {'status':'success', 'message':'Note is being generated, please hold'}, 200
 
 @bp.get('/note/<int:id>')
