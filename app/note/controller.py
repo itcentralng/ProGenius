@@ -42,10 +42,16 @@ def get_note(id):
 @bp.patch('/note/<int:id>')
 @auth_required()
 def update_note(id):
+    clean = request.json.get('content', 'clean')
+    raw = request.json.get('raw')
+    subject = request.json.get('subject')
+    topic = request.json.get('topic')
+    level = request.json.get('level')
+    curriculum = request.json.get('curriculum')
     note = Note.get_by_id(id)
     if note is None:
         return {'message': 'Note not found'}, 404
-    note.update()
+    note.update(subject, topic, level, curriculum, raw, clean)
     return NoteSchema().dump(note), 200
 
 @bp.delete('/note/<int:id>')
