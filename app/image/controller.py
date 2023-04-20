@@ -1,4 +1,6 @@
-from flask import Blueprint
+from flask import Blueprint, request
+from app.celery.tasks import regenerate_image
+from app.note.model import Note
 from app.route_guard import auth_required
 
 from app.image.model import *
@@ -23,11 +25,12 @@ def get_image(id):
 @bp.patch('/image/<int:id>')
 @auth_required()
 def update_image(id):
+    prompt = request.json.get('prompt')
     image = Image.get_by_id(id)
     if image is None:
         return {'message': 'Image not found'}, 404
-    image.update()
-    return ImageSchema().dump(image), 200
+    regenerate_image.delay(image.id, prompt)
+    return {'status':'success', 'message':'Image is being generated, please hold'}, 200
 
 @bp.delete('/image/<int:id>')
 @auth_required()
@@ -35,6 +38,8 @@ def delete_image(id):
     image = Image.get_by_id(id)
     if image is None:
         return {'message': 'Image not found'}, 404
+    note = Note.get_by_id(image.note_id)
+    note.remove_image(image.id, image.prompt)
     image.delete()
     return {'message': 'Image deleted successfully'}, 200
 

@@ -1,7 +1,6 @@
 from app import db
 from helpers.openai import chat, transcribe
 from helpers.formater import clean
-from helpers.ephemeral import Ephemeral
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,6 +32,17 @@ class Note(db.Model):
     
     def delete(self):
         self.is_deleted = True
+        self.updated_at = db.func.now()
+        db.session.commit()
+    
+    def update_image_prompt(self, old_prompt, new_prompt):
+        self.raw.replace(f'[image: {old_prompt}]', f'[image: {new_prompt}]')
+        self.updated_at = db.func.now()
+        db.session.commit()
+
+    def remove_image(self, image_id, prompt):
+        self.raw.replace(f'[image: {prompt}]', '')
+        self.clean.replace(f'[image:{image_id}]', '')
         self.updated_at = db.func.now()
         db.session.commit()
 

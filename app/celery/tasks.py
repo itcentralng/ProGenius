@@ -1,11 +1,14 @@
 from app import celery, db
 
 from app.note.model import Note
+from app.image.model import Image
 
 import socketio
 import os
 
 from app.note.schema import NoteSchema
+from helpers.stability import dream
+from helpers.upload import add
 
 # create a Socket.IO client instance
 sio = socketio.Client()
@@ -36,3 +39,33 @@ def create_note_task(subject, topic, curriculum, level, user_id, transient_audio
         os.remove(transient_audio_file)
         db.session.rollback()
         return "Note Could Not Be Generated Successfully!"
+
+@celery.task
+def regenerate_image(image_id, prompt=None):
+    try:
+        old_prompt = image.prompt
+        image = Image.get_by_id(image_id)
+        image.prompt = prompt or image.prompt
+        encoded_string = dream(image.prompt)
+        image_url = add(encoded_string)
+        image.url = image_url
+        image.updated_at = db.func.now()
+
+        note = Note.get_by_id(image.note_id)
+        note.update_image_prompt(old_prompt, image.prompt)
+        
+        db.session.commit()
+        # connect to the Socket.IO server
+        sio.connect(os.environ.get('SOCKET_SERVER'))
+        # create a JSON object
+        data = NoteSchema().dump(note)
+
+        # emit the JSON data to the server
+        sio.emit('json', {'note':data})
+
+        # disconnect from the server
+        sio.disconnect()
+        return "Image Generated Successfully!"
+    except:
+        db.session.rollback()
+        return "Image Could Not Be Generated Successfully!"
