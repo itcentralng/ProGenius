@@ -5,6 +5,7 @@ from app.note.model import *
 from app.note.schema import *
 
 from app.celery.tasks import create_note_task
+from helpers.ephemeral import Ephemeral
 
 bp = Blueprint('note', __name__)
 
