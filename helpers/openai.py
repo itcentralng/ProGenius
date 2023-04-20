@@ -56,6 +56,8 @@ prompts = {
 
             Your notes will be styled using markdown.
 
+            Your notes will still retain images as [image: prompt] not as markdown image style.
+
             You highlight important keywords within your notes.
 
             When responding to requests from users, you only respond with the generated note and nothing else.
