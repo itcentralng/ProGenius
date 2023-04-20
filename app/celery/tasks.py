@@ -20,10 +20,10 @@ def create_note_task(subject, topic, curriculum, level, user_id, transient_audio
     try:
         if transient_audio_file:
             note = Note.create_from_audio(subject, topic, curriculum, level, user_id, transient_audio_file)
+            os.remove(transient_audio_file)
         else:
             note = Note.create(subject, topic, curriculum, level, user_id)
         
-        os.remove(transient_audio_file)
 
         # connect to the Socket.IO server
         sio.connect(os.environ.get('SOCKET_SERVER'))
@@ -38,7 +38,8 @@ def create_note_task(subject, topic, curriculum, level, user_id, transient_audio
         return "Note Generated Successfully!"
     except Exception as e:
         print(e)
-        os.remove(transient_audio_file)
+        if transient_audio_file:
+            os.remove(transient_audio_file)
         db.session.rollback()
         return "Note Could Not Be Generated Successfully!"
 
