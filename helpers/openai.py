@@ -28,6 +28,8 @@ prompts = {
 
             Your notes will be styled using markdown.
 
+            You highlight important keywords within your notes.
+
             When responding to requests from users, you only respond with the generated note and nothing else.
             """,
 'transcript' : """
@@ -53,6 +55,8 @@ prompts = {
             Your notes will always have at least one image.
 
             Your notes will be styled using markdown.
+
+            You highlight important keywords within your notes.
 
             When responding to requests from users, you only respond with the generated note and nothing else.
             """,
