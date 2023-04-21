@@ -1,6 +1,6 @@
-# autoNote Flask Server
+# KlassNaut Flask Server
 
-The autoNote Flask server is a backend service for the autoNote ReactJs app. The server uses OpenAI and Stability AI APIs to generate study notes in both text and image format for teachers. The server can handle simple prompts such as subject name and topic, as well as audio lectures.
+The KlassNaut Flask server is a backend service for the KlassNaut [ReactJs app](https://github.com/itcentralng/autoNoteApp) . The server uses OpenAI and Stability AI APIs to generate study notes in both text and image format for teachers. The server can handle simple prompts such as subject name and topic, as well as audio lectures.
 
 ## TO RUN:
 
