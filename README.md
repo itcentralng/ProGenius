@@ -11,6 +11,16 @@ To run the ProposalAI Flask server, follow the steps below:
     DATABASE_URI=your-db-url
     FLASK_DEBUG=True
     SECRET_KEY=can-be-any-secret
+    
+    SPACE_REGION=your-do-space-region
+    SPACE_NAME=your-do-space-name
+    SPACE_KEY=your-do-space-key
+    SPACE_SECRET=your-do-space-secret
+    SPACE_ENDPOINT=your-do-space-endpoint
+    SPACE_EDGE_ENDPOINT=your-do-space-endpoint
+
+    CELERY_BROKER_URL=your-redis-string
+    result_backend=your-redis-string
 
     AI21_API_KEY=your-open-ai-key
     ```
