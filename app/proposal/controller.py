@@ -9,13 +9,11 @@ bp = Blueprint('proposal', __name__)
 @bp.post('/proposal')
 @auth_required()
 def create_proposal():
-    company = request.json['company']
-    company_description = request.json['company_description']
-    client = request.json['client']
-    client_description = request.json['client_description']
-    product = request.json['product']
-    product_description = request.json['product_description']
-    proposal = Proposal.create(company, company_description, client, client_description, product, product_description)
+    company_id = request.json['company_id']
+    client_id = request.json['client_id']
+    offering = request.json['offering']
+    description = request.json['description']
+    proposal = Proposal.create(company_id, client_id, offering, description)
     return ProposalSchema().dump(proposal), 201
 
 @bp.post('/proposal/<int:id>')

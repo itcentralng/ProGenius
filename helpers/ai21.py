@@ -532,14 +532,14 @@ Write a better version of the above information:
 }
 stopSequence="####"
 
-def fewShots(company, company_description, client, product, product_description, component, model="j2-grande", maxTokens=500, temperature=0.5):
+def fewShots(company, company_description, client, offering, description, component, model="j2-grande", maxTokens=500, temperature=0.5):
     response = ai21.Completion.execute(
         model=model,
         prompt=prompts.get(component)
             .replace("[stopSequence]", stopSequence)
             .replace("[client]", client)
-            .replace("[product]", product)
-            .replace("product-description", product_description)
+            .replace("[product]", offering)
+            .replace("product-description", description)
             .replace("[company]", company)
             .replace("[company-description]", company_description),
         numResults=1,

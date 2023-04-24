@@ -1,7 +1,14 @@
 from app import db
+from flask import g
 
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    address = db.Column(db.String)
+    phone = db.Column(db.String)
+    rep = db.Column(db.String)
+    description = db.Column(db.String)
+    created_by = db.Column(db.Integer, db.ForeignKey("user.id"))
     created_at = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, default=db.func.now())
     is_deleted = db.Column(db.Boolean, default=False)
@@ -10,7 +17,12 @@ class Client(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self):
+    def update(self, name=None, address=None, phone=None, rep=None, description=None):
+        self.name = name or self.name
+        self.address = address or self.address
+        self.phone = phone or self.phone
+        self.rep = rep or self.rep
+        self.description = description or self.description
         self.updated_at = db.func.now()
         db.session.commit()
     
@@ -25,10 +37,10 @@ class Client(db.Model):
     
     @classmethod
     def get_all(cls):
-        return cls.query.filter_by(is_deleted=False).all()
+        return cls.query.filter_by(is_deleted=False, created_by=g.user.id).all()
     
     @classmethod
-    def create(cls):
-        client = cls()
+    def create(cls, name=None, address=None, phone=None, rep=None, description=None):
+        client = cls(name=name, address=address, phone=phone, rep=rep, description=description, created_by=g.user.id)
         client.save()
         return client

@@ -33,4 +33,4 @@ from app.client.controller import bp as client_bp
 app.register_blueprint(client_bp)
 
 # Error handlers
-from .error_handlers import *
+# from .error_handlers import *

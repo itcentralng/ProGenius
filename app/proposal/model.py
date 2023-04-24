@@ -1,15 +1,19 @@
 from app import db
 from helpers.ai21 import fewShots, improve, noShot
+from flask import g
+from app.company.model import Company
+from app.client.model import Client
 
 class Proposal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    company = db.Column(db.String)
-    company_description = db.Column(db.String)
-    client = db.Column(db.String)
-    client_description = db.Column(db.String)
-    product = db.Column(db.String)
-    product_description = db.Column(db.String)
+    company_id = db.Column(db.Integer, db.ForeignKey("company.id"))
+    client_id = db.Column(db.Integer, db.ForeignKey("client.id"))
+    offering = db.Column(db.String)
+    description = db.Column(db.String)
     components = db.relationship("Component")
+    company = db.relationship("Company")
+    client = db.relationship("Client")
+    created_by = db.Column(db.Integer, db.ForeignKey("user.id"))
     created_at = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, default=db.func.now())
     is_deleted = db.Column(db.Boolean, default=False)
@@ -42,11 +46,11 @@ class Proposal(db.Model):
     
     @classmethod
     def get_all(cls):
-        return cls.query.filter_by(is_deleted=False).all()
+        return cls.query.filter_by(is_deleted=False, created_by=g.user.id).all()
     
     @classmethod
-    def create(cls, company, company_description, client, client_description, product, product_description):
-        proposal = cls(company=company, company_description=company_description, client=client, client_description=client_description, product=product, product_description=product_description)
+    def create(cls, company_id, client_id, offering, description):
+        proposal = cls(company_id=company_id, client_id=client_id, offering=offering, description=description, created_by=g.user.id)
         proposal.save()
         return proposal
 
@@ -80,9 +84,20 @@ class Component(db.Model):
     def regenerate(self):
         proposal = Proposal.get_by_id(self.proposal_id)
         if self.code != 'letter':
-            content = fewShots(proposal.company, proposal.company_description, proposal.client, proposal.product, proposal.product_description, code)
+            content = fewShots(proposal.company.name, proposal.company.description, proposal.client.name, proposal.offering, proposal.description, self.code)
         else:
             context = "\n\n".join([f"{field.name}\n{field.content}" for field in proposal.components if field.code !='letter'])
+            context+= f"""
+            \n
+            Sender:
+                Name: {proposal.company.rep},
+                Address: {proposal.company.address},
+                Phone: {proposal.company.phone},
+            Receiver:
+                Name: {proposal.client.rep},
+                Address: {proposal.client.address},
+                Phone: {proposal.client.phone},
+            """
             content = noShot(self.code, context)
         self.update(content=content)
     
@@ -109,13 +124,6 @@ class Component(db.Model):
         component = cls.get_by_proposal_id_and_code(proposal.id, code)
         if not component:
             component = cls(proposal_id=proposal.id, index=index, code=code, name=code.title())
-            if code != 'letter':
-                content = fewShots(proposal.company, proposal.company_description, proposal.client, proposal.product, proposal.product_description, code)
-            else:
-                context = "\n\n".join([f"{field.name}\n{field.content}" for field in proposal.components if field.code !='letter'])
-                content = noShot(code, context)
-            component.content = content
             component.save()
-        else:
-            component.regenerate()
+        component.regenerate()
         return component

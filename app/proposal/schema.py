@@ -11,3 +11,5 @@ class ProposalSchema(ma.SQLAlchemyAutoSchema):
         model = Proposal
         exclude = ('is_deleted',)
     components = ma.Nested('ComponentSchema', many=True)
+    client = ma.Nested('ClientSchema')
+    company = ma.Nested('CompanySchema')

@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from app.route_guard import auth_required
 
 from app.client.model import *
@@ -9,7 +9,12 @@ bp = Blueprint('client', __name__)
 @bp.post('/client')
 @auth_required()
 def create_client():
-    client = Client.create()
+    name = request.json['name']
+    address = request.json['address']
+    phone = request.json['phone']
+    rep = request.json['rep']
+    description = request.json['description']
+    client = Client.create(name, address, phone, rep, description)
     return ClientSchema().dump(client), 201
 
 @bp.get('/client/<int:id>')
@@ -26,7 +31,12 @@ def update_client(id):
     client = Client.get_by_id(id)
     if client is None:
         return {'message': 'Client not found'}, 404
-    client.update()
+    name = request.json.get('name')
+    address = request.json.get('address')
+    phone = request.json.get('phone')
+    rep = request.json.get('rep')
+    description = request.json.get('description')
+    client.update(name, address, phone, rep, description)
     return ClientSchema().dump(client), 200
 
 @bp.delete('/client/<int:id>')
