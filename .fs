@@ -24,3 +24,5 @@ FLASK SETUP LOG
 2023-04-24 00:07:10: Blueprint proposal added successfully
 2023-04-24 08:36:14: Blueprint image removed successfully
 2023-04-24 08:36:21: Blueprint note removed successfully
+2023-04-24 08:37:23: Blueprint company added successfully
+2023-04-24 08:37:27: Blueprint client added successfully

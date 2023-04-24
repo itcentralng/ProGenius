@@ -27,6 +27,10 @@ from app.user.controller import bp as user_bp
 app.register_blueprint(user_bp)
 from app.proposal.controller import bp as proposal_bp
 app.register_blueprint(proposal_bp)
+from app.company.controller import bp as company_bp
+app.register_blueprint(company_bp)
+from app.client.controller import bp as client_bp
+app.register_blueprint(client_bp)
 
 # Error handlers
 from .error_handlers import *
