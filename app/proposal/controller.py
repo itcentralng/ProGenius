@@ -74,6 +74,16 @@ def upload():
     url = add(file)
     return {'url':url}
 
+@bp.patch('/component/<int:id>')
+@auth_required()
+def update_proposal_component(id):
+    index = request.json.get('index')
+    name = request.json.get('name')
+    content = request.json.get('content')
+    component = Component.get_by_id(id)
+    component.update(index, name, content)
+    return ComponentSchema().dump(component), 200
+
 @bp.get('/components')
 @auth_required()
 def components():

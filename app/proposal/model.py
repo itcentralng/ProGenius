@@ -69,7 +69,7 @@ class Component(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self, index=None, code=None, name=None, content=None):
+    def update(self, index=None, name=None, content=None, code=None):
         self.index = index or self.index
         self.code = code or self.code
         self.name = name or self.name
