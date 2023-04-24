@@ -43,7 +43,7 @@ The following endpoints are available:
 - `/company` - (GET, POST, PATCH, DELETE)
 - `/client` - (GET, POST, PATCH, DELETE)
 - `/proposal` - (GET, POST, PATCH, DELETE)
-- `/components` - (GET: Get a list of available components to add to your proposal)
+- `/components` - (GET: get a list of available components to add to your proposal)
 
 ### Request Parameters
 
