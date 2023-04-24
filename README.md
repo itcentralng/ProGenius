@@ -1,4 +1,4 @@
-# ProposalAI Flask Server
+# ProGenius Flask Server
 
 The Proposal Flask server is a backend service for the [ProGenius ReactJs app](https://github.com/itcentralng/ProGeniusApp). The server uses AI21 to generate contents of a proposal for business persons. The server can handle simple prompts such as name of company, name of client company and short description about the proposal.
 
