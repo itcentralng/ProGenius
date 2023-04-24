@@ -73,3 +73,15 @@ def upload():
     file = request.files.get('file')
     url = add(file)
     return {'url':url}
+
+@bp.get('/components')
+@auth_required()
+def components():
+    return [
+        {'code':'about', 'name':'About Us'},
+        {'code':'problem', 'name':'Problem'},
+        {'code':'solution', 'name':'Solution'},
+        {'code':'implementation', 'name':'Implementation'},
+        {'code':'cost', 'name':'Cost'},
+        {'code':'letter', 'name':'Letter'},
+    ]
