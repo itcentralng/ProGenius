@@ -1,10 +1,10 @@
-# KlassNaut Flask Server
+# ProposalAI Flask Server
 
-The KlassNaut Flask server is a backend service for the [KlassNaut ReactJs app](https://github.com/itcentralng/autoNoteApp). They are connected for notification via a [SocketIO server for KlassNaut](https://github.com/itcentralng/klassnautsocket). The server uses OpenAI and Stability AI APIs to generate study notes in both text and image format for teachers. The server can handle simple prompts such as subject name and topic, as well as audio lectures.
+The Proposal Flask server is a backend service for the [ProposalAI ReactJs app](https://github.com/itcentralng/proposalAIapp). The server uses AI21 to generate contents of a proposal for business persons. The server can handle simple prompts such as name of company, name of client company and short description about the proposal.
 
 ## TO RUN:
 
-To run the autoNote Flask server, follow the steps below:
+To run the ProposalAI Flask server, follow the steps below:
 
 1. Add a `.env` file to the root of the project with the following details:
     ```
@@ -12,17 +12,9 @@ To run the autoNote Flask server, follow the steps below:
     FLASK_DEBUG=True
     SECRET_KEY=can-be-any-secret
 
-    OPENAI_API_KEY=your-open-ai-key
-    STABILITY_API_KEY=your-stability-ai-key
-
-    SPACE_REGION=your-digital-ocean-space-regoin
-    SPACE_NAME=your-digital-ocean-space-name
-    SPACE_KEY=your-digital-ocean-space-key
-    SPACE_SECRET=your-digital-ocean-space-secret
-    SPACE_ENDPOINT=your-digital-ocean-space-endpoint
-    SPACE_EDGE_ENDPOINT=your-digital-ocean-space-edge-endpoint-or-just-the-end-point-again
+    AI21_API_KEY=your-open-ai-key
     ```
-   Note that you'll need to obtain the necessary API keys and DigitalOcean Spaces information to fill out the values.
+   Note that you'll need to obtain the necessary API keys to fill out the values.
 
 2. Install Python on your computer.
 
@@ -38,25 +30,43 @@ To run the autoNote Flask server, follow the steps below:
 
 The following endpoints are available:
 
-- `/notes` - a GET request to the notes URL will return a JSON response with a list of generated notes
-- `/note` - a POST request to this URL with appropriate parameters will generate study notes and return them in both text and image format.
+- `/company`
+- `/client`
+- `/proposal`
 
 ### Request Parameters
 
-The `/note` endpoint accepts the following parameters in a JSON payload:
+The `/company` endpoint accepts the following parameters in a JSON payload:
 
-- `subject` (required): The name of the subject for which notes are to be generated.
-- `topic` (required): The topic of the subject for which notes are to be generated.
-- `level` (required): The level of the students for which notes are to be generated.
-- `curriculum` (required): The context arround which notes are to be generated.
+- `name`
+- `address`
+- `description`
+- `rep`
+- `role`
+- `phone`
+- `email`
 
-### Response
+The `/client` endpoint accepts the following parameters in a JSON payload:
 
-The `/note` endpoint returns a JSON payload containing the following fields:
+- `name`
+- `address`
+- `description`
+- `rep`
+- `role`
+- `phone`
+- `email`
 
-- `clean`: A cleaner version of the generated notes with images placed appropraitely by their ids
-- `raw`: The raw response from the content generator
-- `images`: An array of the generated images with id, url and caption
+The `/proposal` endpoint accepts the following parameters in a JSON payload:
+
+- `company_id`
+- `client_id`
+- `offering`
+- `description`
+
+The `/proposal/<id>` endpoint accepts the following parameters in a JSON payload:
+
+- `component`
+- `index`
 
 ## Contributing
 
@@ -71,6 +81,4 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 This project makes use of the following libraries and APIs:
 
 - Flask
-- OpenAI API
-- Stability AI API
-- DigitalOcean Spaces API
+- AI21 API
