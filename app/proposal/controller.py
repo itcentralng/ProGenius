@@ -4,6 +4,8 @@ from app.route_guard import auth_required
 from app.proposal.model import *
 from app.proposal.schema import *
 
+from helpers.upload import add
+
 bp = Blueprint('proposal', __name__)
 
 @bp.post('/proposal')
@@ -64,3 +66,10 @@ def delete_proposal(id):
 def get_proposals():
     proposals = Proposal.get_all()
     return ProposalSchema(many=True).dump(proposals), 200
+
+@bp.post('/upload')
+@auth_required()
+def upload():
+    file = request.files.get('file')
+    url = add(file)
+    return {'url':url}

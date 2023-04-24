@@ -11,19 +11,12 @@ client = session.client(
     aws_access_key_id=os.environ.get('SPACE_KEY'),
     aws_secret_access_key=os.environ.get('SPACE_SECRET'))
 
-import base64
-from io import BytesIO
-
-def add(base64_string):
+def add(file_to_upload):
     try:
-        # decode base64 string to bytes
-        file_data = base64.b64decode(base64_string)
-        # create file-like object
-        file = BytesIO(file_data)
         # create file name
-        name = "".join(random.choice(string.ascii_lowercase + string.digits) for _ in range(10)) + '.png'
+        name = "".join(random.choice(string.ascii_lowercase + string.digits) for _ in range(10)) + '.' + file_to_upload.filename.split('.')[-1]
         # upload file
-        client.upload_fileobj(file, os.environ.get('SPACE_NAME'), name, ExtraArgs={'ACL': 'public-read'})
+        client.upload_fileobj(file_to_upload, os.environ.get('SPACE_NAME'), name, ExtraArgs={'ACL': 'public-read'})
         return f"{os.environ.get('SPACE_EDGE_ENDPOINT')}/{os.environ.get('SPACE_NAME')}/{name}"
     except Exception as e:
         print(e)
