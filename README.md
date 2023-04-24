@@ -40,9 +40,10 @@ To run the ProposalAI Flask server, follow the steps below:
 
 The following endpoints are available:
 
-- `/company`
-- `/client`
-- `/proposal`
+- `/company` - (GET, POST, PATCH, DELETE)
+- `/client` - (GET, POST, PATCH, DELETE)
+- `/proposal` - (GET, POST, PATCH, DELETE)
+- `/components` - (GET: Get a list of available components to add to your proposal)
 
 ### Request Parameters
 
