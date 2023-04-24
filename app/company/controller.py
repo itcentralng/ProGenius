@@ -10,13 +10,14 @@ bp = Blueprint('company', __name__)
 @auth_required()
 def create_company():
     name = request.json['name']
+    logo = request.json['logo']
     address = request.json['address']
     phone = request.json['phone']
     email = request.json['email']
     rep = request.json['rep']
     role = request.json['role']
     description = request.json['description']
-    company = Company.create(name, address, phone, email, rep, role, description)
+    company = Company.create(name, logo, address, phone, email, rep, role, description)
     return CompanySchema().dump(company), 201
 
 @bp.get('/company/<int:id>')
@@ -34,13 +35,14 @@ def update_company(id):
     if company is None:
         return {'message': 'Company not found'}, 404
     name = request.json.get('name')
+    logo = request.json.get('logo')
     address = request.json.get('address')
     phone = request.json.get('phone')
     email = request.json.get('email')
     rep = request.json.get('rep')
     role = request.json.get('role')
     description = request.json.get('description')
-    company.update(name, address, phone, email, rep, role, description)
+    company.update(name, logo, address, phone, email, rep, role, description)
     return CompanySchema().dump(company), 200
 
 @bp.delete('/company/<int:id>')

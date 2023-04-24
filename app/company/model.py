@@ -4,6 +4,7 @@ from flask import g
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    logo = db.Column(db.String)
     address = db.Column(db.String)
     phone = db.Column(db.String)
     email = db.Column(db.String)
@@ -19,8 +20,9 @@ class Company(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self, name=None, address=None, phone=None, email=None, rep=None, role=None, description=None):
+    def update(self, name=None, logo=None, address=None, phone=None, email=None, rep=None, role=None, description=None):
         self.name = name or self.name
+        self.logo = logo or self.logo
         self.address = address or self.address
         self.phone = phone or self.phone
         self.email = email or self.email
@@ -44,7 +46,7 @@ class Company(db.Model):
         return cls.query.filter_by(is_deleted=False, created_by=g.user.id).all()
     
     @classmethod
-    def create(cls, name=None, address=None, phone=None, email=None, rep=None, role=None, description=None):
-        company = cls(name=name, address=address, phone=phone, email=email, rep=rep, role=role, description=description, created_by=g.user.id)
+    def create(cls, name=None, logo=None, address=None, phone=None, email=None, rep=None, role=None, description=None):
+        company = cls(name=name, logo=logo, address=address, phone=phone, email=email, rep=rep, role=role, description=description, created_by=g.user.id)
         company.save()
         return company

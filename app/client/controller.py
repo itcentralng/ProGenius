@@ -10,13 +10,14 @@ bp = Blueprint('client', __name__)
 @auth_required()
 def create_client():
     name = request.json['name']
+    logo = request.json['logo']
     address = request.json['address']
     phone = request.json['phone']
     email = request.json['email']
     rep = request.json['rep']
     role = request.json['role']
     description = request.json['description']
-    client = Client.create(name, address, phone, email, rep, role, description)
+    client = Client.create(name, logo, address, phone, email, rep, role, description)
     return ClientSchema().dump(client), 201
 
 @bp.get('/client/<int:id>')
@@ -34,13 +35,14 @@ def update_client(id):
     if client is None:
         return {'message': 'Client not found'}, 404
     name = request.json.get('name')
+    logo = request.json.get('logo')
     address = request.json.get('address')
     phone = request.json.get('phone')
     email = request.json.get('email')
     rep = request.json.get('rep')
     role = request.json.get('role')
     description = request.json.get('description')
-    client.update(name, address, phone, email, rep, role, description)
+    client.update(name, logo, address, phone, email, rep, role, description)
     return ClientSchema().dump(client), 200
 
 @bp.delete('/client/<int:id>')
