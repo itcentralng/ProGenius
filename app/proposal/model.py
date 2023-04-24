@@ -91,12 +91,16 @@ class Component(db.Model):
             \n
             Sender:
                 Name: {proposal.company.rep},
+                Role: {proposal.company.role},
                 Address: {proposal.company.address},
                 Phone: {proposal.company.phone},
+                Email: {proposal.company.email},
             Receiver:
                 Name: {proposal.client.rep},
+                Role: {proposal.client.role},
                 Address: {proposal.client.address},
                 Phone: {proposal.client.phone},
+                Email: {proposal.client.email},
             """
             content = noShot(self.code, context)
         self.update(content=content)

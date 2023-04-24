@@ -6,7 +6,9 @@ class Company(db.Model):
     name = db.Column(db.String)
     address = db.Column(db.String)
     phone = db.Column(db.String)
+    email = db.Column(db.String)
     rep = db.Column(db.String)
+    role = db.Column(db.String)
     description = db.Column(db.String)
     created_by = db.Column(db.Integer, db.ForeignKey("user.id"))
     created_at = db.Column(db.DateTime, default=db.func.now())
@@ -17,11 +19,13 @@ class Company(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self, name=None, address=None, phone=None, rep=None, description=None):
+    def update(self, name=None, address=None, phone=None, email=None, rep=None, role=None, description=None):
         self.name = name or self.name
         self.address = address or self.address
         self.phone = phone or self.phone
+        self.email = email or self.email
         self.rep = rep or self.rep
+        self.role = role or self.role
         self.description = description or self.description
         self.updated_at = db.func.now()
         db.session.commit()
@@ -40,7 +44,7 @@ class Company(db.Model):
         return cls.query.filter_by(is_deleted=False, created_by=g.user.id).all()
     
     @classmethod
-    def create(cls, name=None, address=None, phone=None, rep=None, description=None):
-        company = cls(name=name, address=address, phone=phone, rep=rep, description=description, created_by=g.user.id)
+    def create(cls, name=None, address=None, phone=None, email=None, rep=None, role=None, description=None):
+        company = cls(name=name, address=address, phone=phone, email=email, rep=rep, role=role, description=description, created_by=g.user.id)
         company.save()
         return company

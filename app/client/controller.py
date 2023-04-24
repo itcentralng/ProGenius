@@ -12,9 +12,11 @@ def create_client():
     name = request.json['name']
     address = request.json['address']
     phone = request.json['phone']
+    email = request.json['email']
     rep = request.json['rep']
+    role = request.json['role']
     description = request.json['description']
-    client = Client.create(name, address, phone, rep, description)
+    client = Client.create(name, address, phone, email, rep, role, description)
     return ClientSchema().dump(client), 201
 
 @bp.get('/client/<int:id>')
@@ -34,9 +36,11 @@ def update_client(id):
     name = request.json.get('name')
     address = request.json.get('address')
     phone = request.json.get('phone')
+    email = request.json.get('email')
     rep = request.json.get('rep')
+    role = request.json.get('role')
     description = request.json.get('description')
-    client.update(name, address, phone, rep, description)
+    client.update(name, address, phone, email, rep, role, description)
     return ClientSchema().dump(client), 200
 
 @bp.delete('/client/<int:id>')
