@@ -22,7 +22,11 @@ class Proposal(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self):
+    def update(self, company_id=None, client_id=None, offering=None, description=None):
+        self.company_id = company_id or self.company_id
+        self.client_id = client_id or self.client_id
+        self.offering = offering or self.offering
+        self.description = description or self.description
         self.updated_at = db.func.now()
         db.session.commit()
     

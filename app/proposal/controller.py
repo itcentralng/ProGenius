@@ -49,7 +49,11 @@ def update_proposal(id):
     proposal = Proposal.get_by_id(id)
     if proposal is None:
         return {'message': 'Proposal not found'}, 404
-    proposal.update()
+    company_id = request.json.get('company_id')
+    client_id = request.json.get('client_id')
+    offering = request.json.get('offering')
+    description = request.json.get('description')
+    proposal.update(company_id, client_id, offering, description)
     return ProposalSchema().dump(proposal), 200
 
 @bp.delete('/proposal/<int:id>')
